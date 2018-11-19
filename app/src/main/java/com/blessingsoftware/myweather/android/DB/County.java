@@ -16,12 +16,12 @@ public class County extends LitePalSupport {
         this.id = id;
     }
 
-    public String getCounyName() {
+    public String getCountyName() {
         return countyName;
     }
 
-    public void setCounyName(String counyName) {
-        this.countyName = counyName;
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
     }
 
     public String getWeatherID() {
