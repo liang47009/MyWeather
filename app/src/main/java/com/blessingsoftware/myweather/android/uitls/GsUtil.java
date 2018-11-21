@@ -6,12 +6,26 @@ import android.text.TextUtils;
 import com.blessingsoftware.myweather.android.DB.City;
 import com.blessingsoftware.myweather.android.DB.County;
 import com.blessingsoftware.myweather.android.DB.Province;
+import com.blessingsoftware.myweather.android.GSON.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GsUtil {
+    //将返回的数据解析成Weather实体类
+    public static Weather WeatherResponse(String response){
+        try{
+            JSONObject jsonObject=new JSONObject(response);
+            JSONArray jsonArray=jsonObject.getJSONArray("MyWeather");
+            String weatherContent=jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,Weather.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     //省级数据的解析
     public static boolean ProvinceResponse(String response){
         if(!TextUtils.isEmpty(response)){
@@ -60,7 +74,7 @@ public class GsUtil {
                     JSONObject countyObject=allCounties.getJSONObject(i);
                     County county=new County();
                     county.setCountyName(countyObject.getString("name"));
-                    county.setWeatherID(countyObject.getString("weatherID"));
+                    county.setWeatherID(countyObject.getString("weather_id"));
                     county.setCityID(cityID);
                     county.save();
                 }

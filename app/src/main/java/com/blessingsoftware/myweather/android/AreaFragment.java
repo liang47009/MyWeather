@@ -1,6 +1,7 @@
 package com.blessingsoftware.myweather.android;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -48,7 +49,6 @@ public class AreaFragment extends Fragment {
     private List<County>countyList;
     private Province selectedProvince;
     private City selectedCity;
-    private County selectedCounty;
     //判断当前选中选项的级别
     private int currentlevel;
 
@@ -75,6 +75,12 @@ public class AreaFragment extends Fragment {
                 }else if(currentlevel==level_city){
                     selectedCity=cityList.get(position);
                     queryCounties();
+                }else if(currentlevel==level_county) {
+                    String weatherID = countyList.get(position).getWeatherID();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id", weatherID);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
@@ -179,6 +185,7 @@ public class AreaFragment extends Fragment {
             }
         });
     }
+
     private void showProgressDialog(){
         if(progressDialog==null){
             progressDialog=new ProgressDialog(getActivity());
@@ -187,9 +194,12 @@ public class AreaFragment extends Fragment {
         }
         progressDialog.show();
     }
+
     private void closeProgressDialog(){
         if(progressDialog!=null){
             progressDialog.dismiss();
         }
     }
+
+
 }
